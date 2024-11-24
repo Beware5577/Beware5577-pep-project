@@ -39,9 +39,9 @@ public class SocialMediaController
         app.post("/login", this::postLoginHandler);
         app.post("/messages", this::postMessagesHandler);
         app.get("/messages", this::getAllMessagesHandler);
-        app.get("/messages/{message_id}", this::getMessageIdHandler);
-        app.delete("/messages/{message_id}", this::deleteMessageIdHandler);
-        app.patch("/messages/{message_id}", this::patchMessageIdHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
+        app.patch("/messages/{message_id}", this::patchMessageByIdHandler);
         app.get("/accounts/{account_id}/messages", this::getAccountMessagesHandler);
 
         app.start();
@@ -138,22 +138,34 @@ public class SocialMediaController
      * Handler to get a message by a message ID.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
+     *  
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getMessageIdHandler(Context context)
+    private void getMessageByIdHandler(Context context) throws JsonProcessingException
     {
+        //Mapping the object to get message ID
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+
         //Calling method to get a message with a given ID
-        context.json(messageService.getMessage());
+        context.json(messageService.getMessageById(message));
     }
 
     /**
      * Handler to delete a message by a message ID.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
+     *
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void deleteMessageIdHandler(Context context)
+    private void deleteMessageByIdHandler(Context context) throws JsonProcessingException
     {
+        //Mapping the object to get message ID
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+
         //Calling method to delete a message with a given ID
-        context.json(messageService.deleteMessage());
+        context.json(messageService.deleteMessageById(message));
     }
 
     /**
@@ -163,12 +175,12 @@ public class SocialMediaController
      * 
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void patchMessageIdHandler(Context context) throws JsonProcessingException
+    private void patchMessageByIdHandler(Context context) throws JsonProcessingException
     {
         //Mapping object and calling the message service to attempt to update a message
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(context.body(),Message.class);
-        Message updatedMessage = messageService.patchMessage(message);
+        Message updatedMessage = messageService.patchMessageById(message);
 
         //Checking if message was successfully updated
         if(updatedMessage != null)
@@ -183,11 +195,17 @@ public class SocialMediaController
      * Handler to get all messages from an account.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
+     * 
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getAccountMessagesHandler(Context context)
+    private void getAccountMessagesHandler(Context context) throws JsonProcessingException
     {
+        //Mapping the object to get account ID
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+
         //Calling method to return all messages associated with an account
-        List<Message> messages = messageService.getAllAccountMessages();
+        List<Message> messages = messageService.getAllAccountMessages(message);
         context.json(messages);
     }
 

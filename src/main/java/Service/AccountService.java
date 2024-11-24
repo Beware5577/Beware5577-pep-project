@@ -27,7 +27,7 @@ public class AccountService
     }
 
     /*
-    * Registers new accounts
+    * Registers new accounts.
     * 
     * @param account
     *
@@ -39,7 +39,7 @@ public class AccountService
     }
 
     /*
-    * Logs into existing accounts
+    * Logs into existing accounts.
     * 
     * @param account
     *
