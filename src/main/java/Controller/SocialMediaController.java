@@ -11,6 +11,9 @@ import io.javalin.http.Context;
 import Model.Account;
 import Model.Message;
 
+import Service.AccountService;
+import Service.MessageService;
+
 import java.util.List;
 
 /**
@@ -20,6 +23,9 @@ import java.util.List;
  */
 public class SocialMediaController 
 { 
+    AccountService accountService;
+    MessageService messageService;
+
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -162,7 +168,7 @@ public class SocialMediaController
         //Mapping object and calling the message service to attempt to update a message
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(context.body(),Message.class);
-        Message updatedMessage = messageService.createMessage(message);
+        Message updatedMessage = messageService.patchMessage(message);
 
         //Checking if message was successfully updated
         if(updatedMessage != null)
