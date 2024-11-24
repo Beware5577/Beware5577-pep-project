@@ -1,16 +1,25 @@
 package Controller;
 
+import static org.mockito.ArgumentMatchers.nullable;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import Model.Account;
+import Model.Message;
+
+import java.util.List;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
-public class SocialMediaController { 
+public class SocialMediaController 
+{ 
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -41,19 +50,48 @@ public class SocialMediaController {
      * 
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void postRegistrationHandler(Context context) throws JsonProcessingException{
-        context.json("sample text");
+    private void postRegistrationHandler(Context context) throws JsonProcessingException
+    {
+        
+        //Mapping object and calling the account service to attempt to register an account
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(context.body(),Account.class);
+        Account registeredAccount = accountService.registerAccount(account);
+
+        //Checking if account was successfully registered
+        if(registeredAccount != null)
+        {
+            context.json(mapper.writeValueAsString(registeredAccount));
+        }
+        else
+            context.status(400);
+
     }
 
 
     /**
-     * Handler to post a new login.
+     * Handler to post a login.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      * 
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void postLoginHandler(Context context) throws JsonProcessingException{} 
+    private void postLoginHandler(Context context) throws JsonProcessingException
+    {
+        //Mapping object and calling the account service to attempt an account login
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(context.body(),Account.class);
+        Account loggedInAccount = accountService.logInAccount(account);
+
+        //Checking if account was successfully logged in
+        if(loggedInAccount != null)
+        {
+            context.json(mapper.writeValueAsString(loggedInAccount));
+        }
+        else
+            context.status(401);
+
+    } 
 
     /**
      * Handler to post a message.
@@ -62,34 +100,55 @@ public class SocialMediaController {
      * 
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void postMessagesHandler(Context context) throws JsonProcessingException{}
+    private void postMessagesHandler(Context context) throws JsonProcessingException
+    {
+        //Mapping object and calling the message service to attempt to create a message
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+        Message createdMessage = messageService.createMessage(message);
+
+        //Checking if message was successfully created
+        if(createdMessage != null)
+        {
+            context.json(mapper.writeValueAsString(createdMessage));
+        }
+        else
+            context.status(400);
+    }
 
     /**
      * Handler to get all messages.
      * 
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
-     * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
+     * @param context The Javalin Context object manages information about both the HTTP request and response. 
      */
-    private void getAllMessagesHandler(Context context) throws JsonProcessingException{}
+    private void getAllMessagesHandler(Context context)
+    {
+        //Calling method to return all messages
+        List<Message> messages = messageService.getAllMessages();
+        context.json(messages);
+    }
 
     /**
      * Handler to get a message by a message ID.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
-     * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getMessageIdHandler(Context context) throws JsonProcessingException{}
+    private void getMessageIdHandler(Context context)
+    {
+        //Calling method to get a message with a given ID
+        context.json(messageService.getMessage());
+    }
 
     /**
      * Handler to delete a message by a message ID.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
-     * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void deleteMessageIdHandler(Context context) throws JsonProcessingException{}
+    private void deleteMessageIdHandler(Context context)
+    {
+        //Calling method to delete a message with a given ID
+        context.json(messageService.deleteMessage());
+    }
 
     /**
      * Handler to patch a message by a message ID.
@@ -98,15 +157,32 @@ public class SocialMediaController {
      * 
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void patchMessageIdHandler(Context context) throws JsonProcessingException{}
+    private void patchMessageIdHandler(Context context) throws JsonProcessingException
+    {
+        //Mapping object and calling the message service to attempt to update a message
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+        Message updatedMessage = messageService.createMessage(message);
+
+        //Checking if message was successfully updated
+        if(updatedMessage != null)
+        {
+            context.json(mapper.writeValueAsString(updatedMessage));
+        }
+        else
+            context.status(400);
+    }
 
     /**
      * Handler to get all messages from an account.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
-     * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getAccountMessagesHandler(Context context) throws JsonProcessingException{}
+    private void getAccountMessagesHandler(Context context)
+    {
+        //Calling method to return all messages associated with an account
+        List<Message> messages = messageService.getAllAccountMessages();
+        context.json(messages);
+    }
 
 }
