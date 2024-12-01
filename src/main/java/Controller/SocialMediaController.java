@@ -68,7 +68,7 @@ public class SocialMediaController
             context.json(mapper.writeValueAsString(registeredAccount));
         }
         else
-            context.status(400);
+            context.status(400);   
 
     }
 
@@ -106,7 +106,7 @@ public class SocialMediaController
      */
     private void postMessagesHandler(Context context) throws JsonProcessingException
     {
-        //Mapping object and calling the message service to attempt to create a message
+        //Mapping the object to get message ID
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(context.body(),Message.class);
         Message createdMessage = messageService.createMessage(message);
@@ -137,16 +137,11 @@ public class SocialMediaController
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      *  
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getMessageByIdHandler(Context context) throws JsonProcessingException
+    private void getMessageByIdHandler(Context context)
     {
-        //Mapping the object to get message ID
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(),Message.class);
-
         //Calling method to get a message with a given ID
-        context.json(messageService.getMessageById(message));
+        context.json(messageService.getMessageById(Integer.parseInt(context.pathParam("message_id"))));
     }
 
     /**
@@ -154,16 +149,11 @@ public class SocialMediaController
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      *
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void deleteMessageByIdHandler(Context context) throws JsonProcessingException
+    private void deleteMessageByIdHandler(Context context)
     {
-        //Mapping the object to get message ID
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(),Message.class);
-
         //Calling method to delete a message with a given ID
-        context.json(messageService.deleteMessageById(message));
+        context.json(messageService.deleteMessageById(Integer.parseInt(context.pathParam("message_id"))));
     }
 
     /**
@@ -171,19 +161,15 @@ public class SocialMediaController
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void patchMessageByIdHandler(Context context) throws JsonProcessingException
+    private void patchMessageByIdHandler(Context context)
     {
-        //Mapping object and calling the message service to attempt to update a message
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(),Message.class);
-        Message updatedMessage = messageService.patchMessageById(message);
+        Message updatedMessage = messageService.patchMessageById(Integer.parseInt(context.pathParam("message_id")));
 
         //Checking if message was successfully updated
         if(updatedMessage != null)
         {
-            context.json(mapper.writeValueAsString(updatedMessage));
+            context.json(updatedMessage);
         }
         else
             context.status(400);

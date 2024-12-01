@@ -60,9 +60,9 @@ public class MessageService
     *
     * @return Returns a message or null. 
     */
-    public Message getMessageById(Message message)
+    public Message getMessageById(int messageId)
     {
-        return messageDAO.getMessageById(message.getMessage_id());
+        return messageDAO.getMessageById(messageId);
     }
 
     /*
@@ -73,9 +73,9 @@ public class MessageService
     * @return Returns a deleted message or null if message to delete
     *                 does not exist. 
     */
-    public Message deleteMessageById(Message message)
+    public Message deleteMessageById(int messageId)
     {
-        return messageDAO.deleteMessageById(message.getMessage_id());
+        return messageDAO.deleteMessageById(messageId);
     }
 
     /*
@@ -86,9 +86,9 @@ public class MessageService
     * @return Returns a patched message or null if message to patch
     *                 does not exist. 
     */
-    public Message patchMessageById(Message message)
+    public Message patchMessageById(int messageId)
     {
-        return messageDAO.patchMessageById(message.getMessage_id());
+        return messageDAO.patchMessageById(messageId);
     }
 
     /*
