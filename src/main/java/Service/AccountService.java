@@ -35,7 +35,11 @@ public class AccountService
     */
     public Account registerAccount(Account account)
     {
+        //Checking input to see if the parameters are valid
+        if(accountDAO.validAccountParameters(account.getUsername(), account.getPassword()) == false)
+            return null;
 
+        return accountDAO.registerAccount(account);
     }
 
     /*
@@ -47,7 +51,7 @@ public class AccountService
     */
     public Account logInAccount(Account account)
     {
-
+        return accountDAO.logInAccount(account.getUsername(), account.getPassword());
     }
 
 }

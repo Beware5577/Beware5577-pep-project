@@ -3,6 +3,8 @@ package Service;
 import Model.Message;
 import DAO.MessageDAO;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 public class MessageService 
@@ -36,7 +38,11 @@ public class MessageService
     */
     public Message createMessage(Message message)
     {
+        //Checking input for valid text and foreign key
+        if(messageDAO.validMessageParameters(message.getMessage_text(), message.getPosted_by()) == false)
+            return null;
 
+        return messageDAO.createMessage(message);
     }
 
     /*
@@ -46,7 +52,7 @@ public class MessageService
     */
     public List<Message> getAllMessages()
     {
-
+        return messageDAO.getAllMessages();
     }
 
     /*
@@ -58,7 +64,7 @@ public class MessageService
     */
     public Message getMessageById(Message message)
     {
-
+        return messageDAO.getMessageById(message.getMessage_id());
     }
 
     /*
@@ -71,7 +77,7 @@ public class MessageService
     */
     public Message deleteMessageById(Message message)
     {
-
+        return messageDAO.deleteMessageById(message.getMessage_id());
     }
 
     /*
@@ -84,7 +90,7 @@ public class MessageService
     */
     public Message patchMessageById(Message message)
     {
-
+        return messageDAO.patchMessageById(message.getMessage_id());
     }
 
     /*
@@ -96,6 +102,6 @@ public class MessageService
     */
     public List<Message> getAllAccountMessages(Message message)
     {
-
+        return messageDAO.getAllAccountMessages(message.getPosted_by());
     }
 }
