@@ -3,8 +3,6 @@ package Service;
 import Model.Message;
 import DAO.MessageDAO;
 
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 public class MessageService 
