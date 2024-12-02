@@ -161,10 +161,16 @@ public class SocialMediaController
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      * 
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void patchMessageByIdHandler(Context context)
+    private void patchMessageByIdHandler(Context context) throws JsonProcessingException
     {
-        Message updatedMessage = messageService.patchMessageById(Integer.parseInt(context.pathParam("message_id")));
+        //Mapping the object to get message text to update
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(),Message.class);
+
+        //Patching message
+        Message updatedMessage = messageService.patchMessageById(Integer.parseInt(context.pathParam("message_id")), message.getMessage_text());
 
         //Checking if message was successfully updated
         if(updatedMessage != null)
@@ -179,17 +185,11 @@ public class SocialMediaController
      * Handler to get all messages from an account.
      * 
      * @param context The Javalin Context object manages information about both the HTTP request and response.
-     * 
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
-    private void getAccountMessagesHandler(Context context) throws JsonProcessingException
+    private void getAccountMessagesHandler(Context context)
     {
-        //Mapping the object to get account ID
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(),Message.class);
-
         //Calling method to return all messages associated with an account
-        List<Message> messages = messageService.getAllAccountMessages(message);
+        List<Message> messages = messageService.getAllAccountMessages(Integer.parseInt(context.pathParam("account_id")));
         context.json(messages);
     }
 

@@ -86,9 +86,9 @@ public class MessageService
     * @return Returns a patched message or null if message to patch
     *                 does not exist. 
     */
-    public Message patchMessageById(int messageId)
+    public Message patchMessageById(int messageId, String updateText)
     {
-        return messageDAO.patchMessageById(messageId);
+        return messageDAO.patchMessageById(messageId, updateText);
     }
 
     /*
@@ -98,8 +98,8 @@ public class MessageService
     *
     * @return Returns a list of messages. 
     */
-    public List<Message> getAllAccountMessages(Message message)
+    public List<Message> getAllAccountMessages(int accountId)
     {
-        return messageDAO.getAllAccountMessages(message.getPosted_by());
+        return messageDAO.getAllAccountMessages(accountId);
     }
 }
