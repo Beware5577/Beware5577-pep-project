@@ -82,8 +82,8 @@ public Account getAccountById(int accountId)
 *
 * @param message
 *
-* @return Returns a newly created message entry or
-*         returns null upon failure.
+* @return Returns a newly created message entry.
+*         Returns null upon failure.
 */
 public Message createMessage(Message message)
 {
@@ -127,6 +127,14 @@ public Message createMessage(Message message)
 */
 public Message getMessageByTimePostedMessageTextAndAccountId(long timePosted, String messageText, int accountId)
 {
+
+    /*
+    * Note: 
+    * This method is necessary when creating new messages.
+    * The Message object passed in to createMessage lacks a message_id,
+    * this method finds the assigned message_id by using the other elements in the object. 
+    */
+
     //Connecting to database
     Connection connection = ConnectionUtil.getConnection();
 
@@ -289,7 +297,7 @@ public Message deleteMessageById(int messageId)
 * Updates a message's text in the Message Table.
 *
 * @param messageId
-* @param updateText Text to update message with.
+* @param updateText
 *
 * @return Returns the updated message.
 *         Returns null upon failure.

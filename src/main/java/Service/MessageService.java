@@ -56,7 +56,7 @@ public class MessageService
     /*
     * Returns a message with a certain ID if it exists or null if it does not exist.
     * 
-    * @param message
+    * @param messageId
     *
     * @return Returns a message or null. 
     */
@@ -68,7 +68,7 @@ public class MessageService
     /*
     * Deletes a message with a certain ID if it exists.
     * 
-    * @param message
+    * @param messageId
     *
     * @return Returns a deleted message or null if message to delete
     *                 does not exist. 
@@ -79,9 +79,12 @@ public class MessageService
     }
 
     /*
-    * Patches a message with a certain ID if it exists.
+    * Finds if message with the provided ID exists.
+    * If it does exist, it patches the message with
+    * the provided updateText.
     * 
-    * @param message
+    * @param messageId
+    * @param updateText
     *
     * @return Returns a patched message or null if message to patch
     *                 does not exist. 
@@ -92,9 +95,9 @@ public class MessageService
     }
 
     /*
-    * Returns all messages associated with an account.
+    * Returns all messages associated with an account ID.
     * 
-    * @param message
+    * @param accountId
     *
     * @return Returns a list of messages. 
     */
