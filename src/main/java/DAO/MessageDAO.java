@@ -93,12 +93,13 @@ public Message createMessage(Message message)
     try
     {
         //SQL Statement
-        String sql = "INSERT INTO Message (posted_by, message_text) VALUES(?,?)";
+        String sql = "INSERT INTO Message (posted_by, message_text, time_posted_epoch) VALUES(?,?,?)";
         PreparedStatement ps = connection.prepareStatement(sql);
 
         //Setting prepared statement's parameters
         ps.setInt(1, message.getPosted_by());
         ps.setString(2, message.getMessage_text());
+        ps.setLong(3, message.getTime_posted_epoch());
 
         ps.executeUpdate();
 
@@ -109,21 +110,22 @@ public Message createMessage(Message message)
     }
 
     //Getting updated message entry for return
-    return getMessageByTimePostedAndAccountId(message.getTime_posted_epoch(), message.getPosted_by());
+    return getMessageByTimePostedMessageTextAndAccountId(message.getTime_posted_epoch(), message.getMessage_text(), message.getPosted_by());
 }
 
 /*
 * Searches the Message table for a message matching
-* the provided time and account ID.
+* the provided time, text, and account ID.
 *
 * @param timePosted
+* @param messageText
 * @param accountId
 *
 * @return Returns a message entry with the
-*         provided time posted and account ID.
+*         provided time posted, text, and account ID.
 *         Returns null upon failure.
 */
-public Message getMessageByTimePostedAndAccountId(long timePosted, int accountId)
+public Message getMessageByTimePostedMessageTextAndAccountId(long timePosted, String messageText, int accountId)
 {
     //Connecting to database
     Connection connection = ConnectionUtil.getConnection();
@@ -131,12 +133,13 @@ public Message getMessageByTimePostedAndAccountId(long timePosted, int accountId
     try
     {
         //SQL Statement
-        String sql = "SELECT * FROM Message WHERE time_posted_epoch = ? AND posted_by = ?";
+        String sql = "SELECT * FROM Message WHERE time_posted_epoch = ? AND message_text = ? AND posted_by = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
 
         //Setting prepared statement's parameters
         ps.setLong(1, timePosted);
-        ps.setInt(2, accountId);
+        ps.setString(2, messageText);
+        ps.setInt(3, accountId);
 
         //Getting result of SQL statement and returning the result
         ResultSet rs = ps.executeQuery();
@@ -225,7 +228,7 @@ public Message getMessageById(int messageId)
         ResultSet rs = ps.executeQuery();
         while(rs.next())
         {
-            Message message = new Message(rs.getInt("message_id"),
+            Message  message = new Message(rs.getInt("message_id"),
                               rs.getInt("posted_by"),
                               rs.getString("message_text"),
                               rs.getLong("time_posted_epoch"));

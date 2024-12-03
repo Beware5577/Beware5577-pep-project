@@ -148,7 +148,11 @@ public class SocialMediaController
     private void getMessageByIdHandler(Context context)
     {
         //Calling method to get a message with a given ID
-        context.json(messageService.getMessageById(Integer.parseInt(context.pathParam("message_id"))));
+        Message message = messageService.getMessageById(Integer.parseInt(context.pathParam("message_id")));
+        
+        //Checking if message was found
+        if(message != null)
+            context.json(message);
     }
 
     /**
@@ -160,7 +164,11 @@ public class SocialMediaController
     private void deleteMessageByIdHandler(Context context)
     {
         //Calling method to delete a message with a given ID
-        context.json(messageService.deleteMessageById(Integer.parseInt(context.pathParam("message_id"))));
+        Message message = messageService.deleteMessageById(Integer.parseInt(context.pathParam("message_id")));
+
+        //Checking if message was found
+        if(message != null)
+            context.json(message);
     }
 
     /**

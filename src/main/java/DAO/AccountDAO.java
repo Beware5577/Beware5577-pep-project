@@ -20,7 +20,7 @@ public class AccountDAO {
 public boolean validAccountParameters(String username, String password)
 {
     //Checking if username is blank and password is at least 4 characters
-    if(username.equals("") == true || password.length() < 3)
+    if(username.equals("") == true || password.length() < 4)
         return false;
 
     //Checking if username and password are over the character limit
