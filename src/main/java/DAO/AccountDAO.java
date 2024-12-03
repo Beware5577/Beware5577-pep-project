@@ -7,6 +7,7 @@ import java.sql.*;
 
 public class AccountDAO {
 
+    
 /*
 * Checks if a username and password are valid parameters for a
 * new account registration.
@@ -33,6 +34,7 @@ public boolean validAccountParameters(String username, String password)
 
     return true;
 }
+
 
 /*
 * Searches the Account table for an entry with the
@@ -75,6 +77,7 @@ public Account getAccountByUsername(String username)
     return null;
 }
 
+
 /*
 * Creates an entry in the Account table to register
 * an account.
@@ -110,6 +113,7 @@ public Account registerAccount(Account account)
     //Getting updated account entry for return
     return getAccountByUsername(account.getUsername());
 }
+
 
 /*
 * Searches the Account table for an entry with the
@@ -153,4 +157,5 @@ public Account logInAccount(String username, String password)
 
     return null;
 }
+
 }

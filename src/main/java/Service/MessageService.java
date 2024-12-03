@@ -9,6 +9,7 @@ public class MessageService
 {
     private MessageDAO messageDAO;
 
+    
     /*
     * Constructor with no provided DAO
     */
@@ -16,6 +17,7 @@ public class MessageService
     {
         messageDAO = new MessageDAO();
     }
+
 
     /*
     * Constructor with provided DAO
@@ -26,6 +28,7 @@ public class MessageService
     {
         this.messageDAO = messageDAO;
     }
+
 
     /*
     * Creates new messages.
@@ -43,6 +46,7 @@ public class MessageService
         return messageDAO.createMessage(message);
     }
 
+
     /*
     * Returns a list of all existing messages.
     * 
@@ -52,6 +56,7 @@ public class MessageService
     {
         return messageDAO.getAllMessages();
     }
+
 
     /*
     * Returns a message with a certain ID if it exists or null if it does not exist.
@@ -65,6 +70,7 @@ public class MessageService
         return messageDAO.getMessageById(messageId);
     }
 
+
     /*
     * Deletes a message with a certain ID if it exists.
     * 
@@ -77,6 +83,7 @@ public class MessageService
     {
         return messageDAO.deleteMessageById(messageId);
     }
+
 
     /*
     * Finds if message with the provided ID exists.
@@ -93,6 +100,7 @@ public class MessageService
     {
         return messageDAO.patchMessageById(messageId, updateText);
     }
+
 
     /*
     * Returns all messages associated with an account ID.

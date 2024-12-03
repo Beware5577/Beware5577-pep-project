@@ -16,8 +16,8 @@ import Service.MessageService;
 
 import java.util.List;
 
+
 /**
- * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
@@ -104,6 +104,7 @@ public class SocialMediaController
 
     } 
 
+
     /**
      * Handler to post a message.
      * 
@@ -127,6 +128,7 @@ public class SocialMediaController
             context.status(400);
     }
 
+
     /**
      * Handler to get all messages.
      * 
@@ -138,6 +140,7 @@ public class SocialMediaController
         List<Message> messages = messageService.getAllMessages();
         context.json(messages);
     }
+
 
     /**
      * Handler to get a message by a message ID.
@@ -155,6 +158,7 @@ public class SocialMediaController
             context.json(message);
     }
 
+
     /**
      * Handler to delete a message by a message ID.
      * 
@@ -170,6 +174,7 @@ public class SocialMediaController
         if(message != null)
             context.json(message);
     }
+
 
     /**
      * Handler to patch a message by a message ID.
@@ -195,6 +200,7 @@ public class SocialMediaController
         else
             context.status(400);
     }
+
 
     /**
      * Handler to get all messages from an account.

@@ -8,6 +8,7 @@ public class AccountService
 
     private AccountDAO accountDAO;
     
+    
     /*
     * Constructor with no provided DAO
     */
@@ -15,6 +16,7 @@ public class AccountService
     {
         accountDAO = new AccountDAO();
     }
+
 
     /*
     * Constructor with provided DAO
@@ -25,6 +27,7 @@ public class AccountService
     {
         this.accountDAO = accountDAO;
     }
+
 
     /*
     * Registers new accounts.
@@ -41,6 +44,7 @@ public class AccountService
 
         return accountDAO.registerAccount(account);
     }
+
 
     /*
     * Logs into existing accounts.

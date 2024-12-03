@@ -12,6 +12,7 @@ import Model.Account;
 
 public class MessageDAO {
 
+
 /*
 * Checks if a message text and account id are valid 
 * parameters for a new message's creation.
@@ -34,6 +35,7 @@ public boolean validMessageParameters(String messageText, int accountId)
 
     return true;
 }
+
 
 /*
 * Searches the Account table for an entry with the
@@ -76,6 +78,7 @@ public Account getAccountById(int accountId)
     return null;
 }
 
+
 /*
 * Creates a message entry in the Message table and 
 * returns it.
@@ -112,6 +115,7 @@ public Message createMessage(Message message)
     //Getting updated message entry for return
     return getMessageByTimePostedMessageTextAndAccountId(message.getTime_posted_epoch(), message.getMessage_text(), message.getPosted_by());
 }
+
 
 /*
 * Searches the Message table for a message matching
@@ -168,6 +172,7 @@ public Message getMessageByTimePostedMessageTextAndAccountId(long timePosted, St
     return null;
 }
 
+
 /*
 * Gets a list of all messages in the Message table.
 * 
@@ -207,6 +212,7 @@ public List<Message> getAllMessages()
     //Returned list may or may not be empty
     return messageList;
 }
+
 
 /*
 * Searches the Message table for a message matching
@@ -251,6 +257,7 @@ public Message getMessageById(int messageId)
     return null;
 }
 
+
 /*
 * Deletes a message in the Message table if
 * the corresponding message ID exists.
@@ -292,6 +299,7 @@ public Message deleteMessageById(int messageId)
 
     return null;
 }
+
 
 /*
 * Updates a message's text in the Message Table.
@@ -336,6 +344,7 @@ public Message patchMessageById(int messageId, String updateText)
 
     return null;
 }
+
 
 /*
 * Gets a list of all messages in the Message table
