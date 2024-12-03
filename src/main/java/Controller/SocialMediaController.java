@@ -26,6 +26,14 @@ public class SocialMediaController
     AccountService accountService;
     MessageService messageService;
 
+    /*
+     * Constructor
+     */
+    public SocialMediaController(){
+        this.accountService = new AccountService();
+        this.messageService = new MessageService();
+    }
+
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -60,16 +68,15 @@ public class SocialMediaController
         //Mapping object and calling the account service to attempt to register an account
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(context.body(),Account.class);
-        Account registeredAccount = accountService.registerAccount(account);
-
+        Account registeredAccount = accountService.registerAccount(account);    
+        
         //Checking if account was successfully registered
         if(registeredAccount != null)
         {
             context.json(mapper.writeValueAsString(registeredAccount));
         }
         else
-            context.status(400);   
-
+            context.status(400);      
     }
 
 

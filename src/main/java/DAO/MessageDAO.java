@@ -271,7 +271,7 @@ public Message deleteMessageById(int messageId)
         ps.setInt(1, messageId);
 
         //Executing delete and returning deleted message
-        ps.executeQuery();
+        ps.executeUpdate();
         return deletedMessage;
     }
     catch(SQLException e)
@@ -315,7 +315,7 @@ public Message patchMessageById(int messageId, String updateText)
         ps.setInt(2, messageId);
 
         //Getting result of SQL statement and returning updated message
-        ps.executeQuery();
+        ps.executeUpdate();
         return getMessageById(messageId);
     }
     catch(SQLException e)
